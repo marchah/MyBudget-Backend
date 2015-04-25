@@ -1,9 +1,10 @@
 # MyBudget-Backend
 
-Unit Test Done
+Unit Test UpToDate
 --------------
 * Type
 * AuthenticationControllerSpec
+* TypeController (test for parrent not working)
 
 
 TODO
