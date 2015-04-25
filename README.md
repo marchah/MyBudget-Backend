@@ -1,5 +1,10 @@
 # MyBudget-Backend
 
+Unit Test Done
+--------------
+* Type
+* AuthenticationControllerSpec
+
 
 TODO
 ----
