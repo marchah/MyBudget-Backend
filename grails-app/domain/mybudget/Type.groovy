@@ -6,13 +6,14 @@ class Type {
     boolean isIncoming;
     int rgb;
 
-    static hasOne = [parent: Type]
+    Type parent;
+    static hasOne = [Type]
 
     static hasMany = [actions: Action]
 
     //int idUser
     User user
-    static belongsTo = User
+    static belongsTo = [User]
     //static belongsTo = [user:User]
     //
 
