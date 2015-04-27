@@ -16,7 +16,7 @@ class TypeMarshaller {
         JSON.registerObjectMarshaller(Type) { Type type ->
             [
                     id: type.id,
-                    idParent: type.idParent,
+                    idParent: (type.parent != null) ? type.parent.id : 0,
                     title: type.title,
                     isIncoming: type.isIncoming,
                     rgb: type.rgb,
