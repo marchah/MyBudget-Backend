@@ -4,7 +4,7 @@ Unit Test UpToDate
 --------------
 * Type
 * AuthenticationControllerSpec
-* TypeController (test for parrent not working)
+* TypeController (just index done)
 
 
 TODO
