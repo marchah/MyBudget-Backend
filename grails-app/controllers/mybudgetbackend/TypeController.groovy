@@ -64,6 +64,20 @@ class TypeController extends RestfulController {
         }
     }
 
+    def delete(long id) {
+        def type
+        if (!(type = Type.findById(id))) {
+            render status: HttpStatus.SC_NOT_FOUND
+        }
+        else if (type.user != currentUser()) {
+            render status: HttpStatus.SC_FORBIDDEN
+        } else {
+            Type.executeUpdate("UPDATE Type t SET t.parent.id=NULL WHERE t.parent.id=?", [id])
+            type.delete(flush: true) // TODO: enable to delete a type which has children so removed the parent ref
+            render status: HttpStatus.SC_OK
+        }
+    }
+
     protected User currentUser() {
         request.user
     }

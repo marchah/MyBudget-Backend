@@ -4,6 +4,7 @@ import grails.test.mixin.Mock
 import grails.test.mixin.TestFor
 import mybudget.Type
 import mybudget.User
+import org.apache.http.HttpStatus
 import org.codehaus.groovy.grails.web.json.JSONObject
 import spock.lang.Specification
 
@@ -15,12 +16,17 @@ import spock.lang.Specification
 class TypeControllerSpec extends Specification {
 
     def user1
+    def user2
     def typeParent1
     def typeParent2
+    def typeToDeleteForbidden
 
     def setup() {
         user1 = new User(displayName: 'User1', login: 'user1', password: 'totoauzoo', email: 'user1@email.com')
         user1.save(flush: true)
+
+        user2 = new User(displayName: 'User2', login: 'user2', password: 'totoauzoo', email: 'user2@email.com')
+        user2.save(flush: true)
 
         typeParent1 = new Type(title: 'Parent 1', user: user1)
         typeParent1.save(flush: true)
@@ -28,14 +34,19 @@ class TypeControllerSpec extends Specification {
         typeParent2 = new Type(title: 'Parent 2', user: user1)
         typeParent2.save(flush: true)
 
+        typeToDeleteForbidden = new Type(title: 'typeToDeleteForbidden', user: user2)
+        typeToDeleteForbidden.save(flush: true)
+
         request.user = user1
     }
 
     def cleanup() {
         user1.delete(flush: true)
+        user2.delete(flush: true)
 
         typeParent1.delete(flush: true)
         typeParent2.delete(flush: true)
+        typeToDeleteForbidden.delete(flush: true)
     }
 
     void "test index [basic]"() {
@@ -43,7 +54,7 @@ class TypeControllerSpec extends Specification {
         controller.index()
 
         then:
-        response.status == 200
+        response.status == HttpStatus.SC_OK
         response.getJson().findAll().size() == 2
 
         response.json[0].id == typeParent1.id
@@ -72,7 +83,7 @@ class TypeControllerSpec extends Specification {
         controller.index()
 
         then:
-        response.status == 200
+        response.status == HttpStatus.SC_OK
         response.getJson().findAll().size() == 4
 
         response.json[0].id == typeParent1.id
@@ -111,8 +122,8 @@ class TypeControllerSpec extends Specification {
         controller.create(cmd)
 
         then:
-        response.status == 200
-        response.json.id == 3
+        response.status == HttpStatus.SC_OK
+        response.json.id == 4
         JSONObject.NULL.equals(response.json.parent)
         response.json.title == cmd.title
         response.json.isIncoming == cmd.isIncoming
@@ -124,7 +135,7 @@ class TypeControllerSpec extends Specification {
         listTypes.size() == 3
         listTypes.get(0) == typeParent1
         listTypes.get(1) == typeParent2
-        listTypes.get(2).id == 3
+        listTypes.get(2).id == 4
         listTypes.get(2).parent == null
         listTypes.get(2).title == cmd.title
         listTypes.get(2).isIncoming == cmd.isIncoming
@@ -139,8 +150,8 @@ class TypeControllerSpec extends Specification {
         controller.create(cmd)
 
         then:
-        response.status == 200
-        response.json.id == 3
+        response.status == HttpStatus.SC_OK
+        response.json.id == 4
         response.json.parent.id == typeParent1.id
         response.json.title == cmd.title
         response.json.isIncoming == cmd.isIncoming
@@ -152,7 +163,7 @@ class TypeControllerSpec extends Specification {
         listTypes.size() == 3
         listTypes.get(0) == typeParent1
         listTypes.get(1) == typeParent2
-        listTypes.get(2).id == 3
+        listTypes.get(2).id == 4
         listTypes.get(2).parent == typeParent1
         listTypes.get(2).title == cmd.title
         listTypes.get(2).isIncoming == cmd.isIncoming
@@ -168,7 +179,7 @@ class TypeControllerSpec extends Specification {
         controller.update(cmd)
 
         then:
-        response.status == 200
+        response.status == HttpStatus.SC_OK
         response.json.id == typeParent2.id
         JSONObject.NULL.equals(response.json.parent)
         response.json.title == typeParent2.title
@@ -192,7 +203,7 @@ class TypeControllerSpec extends Specification {
         controller.update(cmd)
 
         then:
-        response.status == 200
+        response.status == HttpStatus.SC_OK
         response.json.id == typeParent2.id
         response.json.parent.id == typeParent2.parent.id
         response.json.title == typeParent2.title
@@ -205,6 +216,36 @@ class TypeControllerSpec extends Specification {
         listTypes.size() == 2
         listTypes.get(0) == typeParent1
         listTypes.get(1) == typeParent2
+    }
+
+    void "test delete [basic]"() {
+        when:
+        def cmd = new TypeCommand(title: 'Title 1')
+
+        controller.create(cmd)
+        controller.delete(4)
+        then:
+        response.status == HttpStatus.SC_OK
+
+        def listTypes = Type.findAllByUser(user1)
+
+        listTypes.size() == 2
+        listTypes.get(0) == typeParent1
+        listTypes.get(1) == typeParent2
+    }
+
+    void "test delete [invalid id]"() {
+        when:
+        controller.delete(42)
+        then:
+        response.status == HttpStatus.SC_NOT_FOUND
+    }
+
+    void "test delete [with not owner]"() {
+        when:
+        controller.delete(typeToDeleteForbidden.id)
+        then:
+        response.status == HttpStatus.SC_FORBIDDEN
     }
 
     /*
