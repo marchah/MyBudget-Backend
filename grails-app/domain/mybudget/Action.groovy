@@ -7,11 +7,13 @@ class Action {
     Date date;
     long idRecurring;
 
-    static belongsTo = [type:Type]
+    Type type
+    static belongsTo = [Type]
 
     static constraints = {
         title blank: false
         amount blank: false
         date blank: false
+        idRecurring nullable: true
     }
 }
