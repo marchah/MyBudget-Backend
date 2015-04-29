@@ -1,11 +1,8 @@
 package mybudgetbackend
 
-import grails.test.mixin.Mock
 import grails.test.mixin.TestFor
 import mybudget.Action
 import mybudget.Recurring
-import mybudget.Type
-import mybudget.User
 
 /**
  * See the API for {@link grails.test.mixin.domain.DomainClassUnitTestMixin} for usage instructions
@@ -44,7 +41,54 @@ class RecurringSpec extends ADomainSpec {
         then: 'validation should success'
         recurring.validate()
         !recurring.hasErrors()
-        //println recurring.errors
-        //recurring.errors['nextDate'] == 'blank'
+    }
+
+    void 'test save'(){
+        when:
+        def recurring = new Recurring(createDate: new Date(), nextDate: new Date(), action: action1.id)
+        recurring.save(flush: true)
+
+        then:
+        Recurring.findById(recurring.id) == recurring
+    }
+
+    void 'test update'(){
+        when:
+        def recurring = new Recurring(createDate: new Date(), nextDate: new Date(), action: action1)
+        recurring.save(flush: true)
+
+        recurring.createDate = new Date()
+        recurring.action = action2
+
+        recurring.save(flush: true)
+
+        then:
+        Recurring.findById(recurring.id) == recurring
+    }
+
+    void 'test select'(){
+        when:
+        def recurring1 = new Recurring(createDate: new Date(), nextDate: new Date(), action: action1)
+        recurring1.save(flush: true)
+
+        def recurring2 = new Recurring(createDate: new Date(), nextDate: new Date(), action: action2)
+        recurring2.save(flush: true)
+
+        then:
+        def listRecurrings = Recurring.findAll()
+        listRecurrings.size() == 2
+
+        listRecurrings.get(0) == recurring1
+        listRecurrings.get(1) == recurring2
+    }
+
+    void 'test delete'(){
+        when:
+        def recurring = new Recurring(createDate: new Date(), nextDate: new Date(), action: action1)
+        recurring.save(flush: true)
+
+        then:
+        recurring.delete(flush: true)
+        Recurring.findById(recurring.id) == null
     }
 }
