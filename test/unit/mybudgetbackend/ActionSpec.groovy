@@ -1,45 +1,14 @@
 package mybudgetbackend
 
-import grails.test.mixin.Mock
 import grails.test.mixin.TestFor
 import mybudget.Action
-import mybudget.Type
-import mybudget.User
-import spock.lang.Specification
+
 
 /**
  * See the API for {@link grails.test.mixin.domain.DomainClassUnitTestMixin} for usage instructions
  */
 @TestFor(Action)
-//@Mock([User, Type])
 class ActionSpec extends ADomainSpec {
-
-    /*def user1
-    def user2
-    def typeParent1
-    def typeParent2
-
-    def setup() {
-        user1 = new User(displayName: 'User1', login: 'user1', password: 'totoauzoo', email: 'user1@email.com')
-        user1.save(flush: true)
-
-        user2 = new User(displayName: 'User2', login: 'user2', password: 'totoauzoo', email: 'user2@email.com')
-        user2.save(flush: true)
-
-        typeParent1 = new Type(title: 'Parent 1', user: user1)
-        typeParent1.save(flush: true)
-
-        typeParent2 = new Type(title: 'Parent 2', user: user2)
-        typeParent2.save(flush: true)
-    }
-
-    def cleanup() {
-        user1.delete(flush: true)
-        user2.delete(flush: true)
-
-        typeParent1.delete(flush: true)
-        typeParent2.delete(flush: true)
-    }*/
 
     void 'test constraint'() {
         given:
