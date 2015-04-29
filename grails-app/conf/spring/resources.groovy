@@ -1,4 +1,5 @@
 import marshallers.ActionMarshaller
+import marshallers.RecurringMarshaller
 import marshallers.TypeMarshaller
 import marshallers.UserMarshaller
 
@@ -13,6 +14,10 @@ beans = {
     }
 
     actionMarshaller(ActionMarshaller) { bean ->
+        bean.autowire = 'byName'
+    }
+
+    recurringMarshaller(RecurringMarshaller) { bean ->
         bean.autowire = 'byName'
     }
 }

@@ -22,5 +22,10 @@ class UrlMappings {
         "/api/v1/actions"(controller: "action", action: "create", method: "POST", namespace: 'v1')
         "/api/v1/actions/$id"(controller: "action", action: "update", method: "POST", namespace: 'v1')
         "/api/v1/actions/$id"(controller: "action", action: "delete", method: "DELETE", namespace: 'v1')
+
+        "/api/v1/recurrings"(controller: "recurring", action: "index", method: "GET", namespace: 'v1')
+        "/api/v1/recurrings"(controller: "recurring", action: "create", method: "POST", namespace: 'v1')
+        "/api/v1/recurrings/$id"(controller: "recurring", action: "update", method: "POST", namespace: 'v1')
+        "/api/v1/recurrings/$id"(controller: "recurring", action: "delete", method: "DELETE", namespace: 'v1')
 	}
 }

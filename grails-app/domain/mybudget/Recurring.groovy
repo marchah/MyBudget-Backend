@@ -11,5 +11,6 @@ class Recurring {
     static constraints = {
         createDate blank: false
         nextDate blank: false
+        endDate nullable: true
     }
 }

@@ -11,7 +11,6 @@ import javax.annotation.PostConstruct
 class ActionMarshaller {
     @PostConstruct
     void register() {
-
         JSON.registerObjectMarshaller(Action) { Action action ->
             [
                     id: action.id,

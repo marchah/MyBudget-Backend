@@ -105,9 +105,9 @@ class ActionController extends RestfulController {
 public class ActionCommand {
     long id
     long idType
-    String title;
-    double amount;
-    String date;
+    String title
+    double amount
+    String date
     long idRecurring;
 
     static constraints = {

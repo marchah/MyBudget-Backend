@@ -2,15 +2,16 @@ package mybudgetbackend
 
 import grails.test.mixin.Mock
 import mybudget.Action
+import mybudget.Recurring
 import mybudget.Type
 import mybudget.User
 import spock.lang.Specification
 
 /**
- * Created by marcha on 4/28/15.
+ * Created by marcha on 4/29/15.
  */
-@Mock([User, Type, Action])
-abstract class ASpec extends Specification{
+@Mock([User, Type, Action, Recurring])
+abstract class ADomainSpec extends Specification {
 
     def user1
     def user2
@@ -45,8 +46,6 @@ abstract class ASpec extends Specification{
 
         action3 = new Action(title: 'Action 3', amount: 99.99, date: new Date(), type: typeParent3, user: user2)
         action3.save(flush: true)
-
-        request.user = user1
     }
 
     def cleanup() {
@@ -60,9 +59,5 @@ abstract class ASpec extends Specification{
         action1.delete(flush: true)
         action2.delete(flush: true)
         action3.delete(flush: true)
-    }
-
-    protected User currentUser() {
-        request.user
     }
 }

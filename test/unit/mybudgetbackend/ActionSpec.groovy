@@ -11,10 +11,10 @@ import spock.lang.Specification
  * See the API for {@link grails.test.mixin.domain.DomainClassUnitTestMixin} for usage instructions
  */
 @TestFor(Action)
-@Mock([User, Type])
-class ActionSpec extends Specification {
+//@Mock([User, Type])
+class ActionSpec extends ADomainSpec {
 
-    def user1
+    /*def user1
     def user2
     def typeParent1
     def typeParent2
@@ -39,7 +39,7 @@ class ActionSpec extends Specification {
 
         typeParent1.delete(flush: true)
         typeParent2.delete(flush: true)
-    }
+    }*/
 
     void 'test constraint'() {
         given:
@@ -88,18 +88,21 @@ class ActionSpec extends Specification {
 
     void 'test select'(){
         when:
-        def action1 = new Action(title: 'Action 1', amount: 42.5, date: new Date(), type: typeParent1, user: user1)
-        action1.save(flush: true)
+        def action4 = new Action(title: 'Action 1', amount: 42.5, date: new Date(), type: typeParent1, user: user1)
+        action4.save(flush: true)
 
-        def action2 = new Action(title: 'Action 2', amount: 21.99, date: new Date(), type: typeParent1, user: user1)
-        action2.save(flush: true)
+        def action5 = new Action(title: 'Action 2', amount: 21.99, date: new Date(), type: typeParent1, user: user1)
+        action5.save(flush: true)
 
         then:
         def listActions = Action.findAll()
-        listActions.size() == 2
+        listActions.size() == 5
 
         listActions.get(0) == action1
         listActions.get(1) == action2
+        listActions.get(2) == action3
+        listActions.get(3) == action4
+        listActions.get(4) == action5
     }
 
     void 'test delete'(){

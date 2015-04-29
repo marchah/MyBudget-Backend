@@ -10,35 +10,7 @@ import spock.lang.Specification
  * See the API for {@link grails.test.mixin.domain.DomainClassUnitTestMixin} for usage instructions
  */
 @TestFor(Type)
-@Mock(User)
-class TypeSpec extends Specification {
-
-    def user1
-    def user2
-    def typeParent1
-    def typeParent2
-
-    def setup() {
-        user1 = new User(displayName: 'User1', login: 'user1', password: 'totoauzoo', email: 'user1@email.com')
-        user1.save(flush: true)
-
-        user2 = new User(displayName: 'User2', login: 'user2', password: 'totoauzoo', email: 'user2@email.com')
-        user2.save(flush: true)
-
-        typeParent1 = new Type(title: 'Parent 1', user: user1)
-        typeParent1.save(flush: true)
-
-        typeParent2 = new Type(title: 'Parent 2', user: user2)
-        typeParent2.save(flush: true)
-    }
-
-    def cleanup() {
-        user1.delete(flush: true)
-        user2.delete(flush: true)
-
-        typeParent1.delete(flush: true)
-        typeParent2.delete(flush: true)
-    }
+class TypeSpec extends ADomainSpec {
 
     void 'test constraint [title]'() {
         given:
@@ -124,13 +96,14 @@ class TypeSpec extends Specification {
 
         then:
         def listTypes = Type.findAll()
-        listTypes.size() == 4
+        listTypes.size() == 5
 
 
         listTypes.get(0) == typeParent1
         listTypes.get(1) == typeParent2
-        listTypes.get(2) == type1
-        listTypes.get(3) == type2
+        listTypes.get(2) == typeParent3
+        listTypes.get(3) == type1
+        listTypes.get(4) == type2
     }
 
     void 'test delete'(){

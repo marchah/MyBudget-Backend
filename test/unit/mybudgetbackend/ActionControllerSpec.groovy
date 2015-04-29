@@ -9,16 +9,12 @@ import org.apache.http.HttpStatus
 import org.codehaus.groovy.grails.web.json.JSONObject
 
 import javax.xml.bind.DatatypeConverter
-import java.text.SimpleDateFormat
-
 
 /**
  * See the API for {@link grails.test.mixin.web.ControllerUnitTestMixin} for usage instructions
  */
 @TestFor(ActionController)
-class ActionControllerSpec extends ASpec {
-
-    def dateFormater = new SimpleDateFormat("dd/MM/yyyy")
+class ActionControllerSpec extends AControllerSpec {
 
     void "test index [basic]"() {
         when:
@@ -34,7 +30,7 @@ class ActionControllerSpec extends ASpec {
         response.json[0].amount == action1.amount
         dateFormater.format(DatatypeConverter.parseDateTime((String)response.json[0].date).getTime()) == dateFormater.format(action1.date)
         response.json[0].type.id == typeParent1.id
-        JSONObject.NULL.equals(response.json[0].recurring)
+        response.json[0].recurring.id == recurring1.id
 
         response.json[1].id == action2.id
         response.json[1].title == action2.title
@@ -183,7 +179,7 @@ class ActionControllerSpec extends ASpec {
 
     void "test update [contraints empty]"() {
         when:
-        def cmd = new ActionCommand(id: 1)
+        def cmd = new ActionCommand(id: action1.id)
         controller.update(cmd)
 
         then:
@@ -200,7 +196,7 @@ class ActionControllerSpec extends ASpec {
 
     void "test update [contraints title blank]"() {
         when:
-        def cmd = new ActionCommand(id: 1, title: '')
+        def cmd = new ActionCommand(id: action1.id, title: '')
         controller.update(cmd)
 
         then:
@@ -217,7 +213,7 @@ class ActionControllerSpec extends ASpec {
 
     void "test update [contraints date blank]"() {
         when:
-        def cmd = new ActionCommand(id: 1, title: 'Action 4', date: '')
+        def cmd = new ActionCommand(id: action1.id, title: 'Action 4', date: '')
         controller.update(cmd)
 
         then:
@@ -231,7 +227,7 @@ class ActionControllerSpec extends ASpec {
 
     void "test update [contraints date matches]"() {
         when:
-        def cmd = new ActionCommand(id: 1, title: 'Action 4', date: 'wrong date')
+        def cmd = new ActionCommand(id: action1.id, title: 'Action 4', date: 'wrong date')
         controller.update(cmd)
 
         then:
@@ -245,7 +241,7 @@ class ActionControllerSpec extends ASpec {
 
     void "test update [unknow type 1/2]"() {
         when:
-        def cmd = new ActionCommand(id: 1, title: 'Action 4', date: "10/12/2015")
+        def cmd = new ActionCommand(id: action1.id, title: 'Action 4', date: "10/12/2015")
 
         controller.update(cmd)
 
@@ -255,7 +251,7 @@ class ActionControllerSpec extends ASpec {
 
     void "test update [unknow type 2/2]"() {
         when:
-        def cmd = new ActionCommand(id: 1, title: 'Action 4', date: "10/12/2015", idType: 42)
+        def cmd = new ActionCommand(id: action1.id, title: 'Action 4', date: "10/12/2015", idType: 42)
 
         controller.update(cmd)
 
@@ -263,9 +259,19 @@ class ActionControllerSpec extends ASpec {
         response.status == HttpStatus.SC_NOT_FOUND
     }
 
-    void "test update [forbidden]"() {
+    void "test update [forbidden 1/2]"() {
         when:
-        def cmd = new ActionCommand(id: 1, title: 'Action 4', date: "10/12/2015", idType: typeParent3.id)
+        def cmd = new ActionCommand(id: action1.id, title: 'Action 4', date: "10/12/2015", idType: typeParent3.id)
+
+        controller.update(cmd)
+
+        then:
+        response.status == HttpStatus.SC_FORBIDDEN
+    }
+
+    void "test update [forbidden 2/2]"() {
+        when:
+        def cmd = new ActionCommand(id: action3.id, title: 'Action 4', date: "10/12/2015", idType: typeParent1.id)
 
         controller.update(cmd)
 
@@ -275,7 +281,7 @@ class ActionControllerSpec extends ASpec {
 
     void "test update [basic]"() {
         when:
-        def cmd = new ActionCommand(id: 1, title: 'Action 4', date: "12/12/2015", idType: typeParent2.id)
+        def cmd = new ActionCommand(id: action1.id, title: 'Action 4', date: "12/12/2015", idType: typeParent2.id)
 
         controller.update(cmd)
 
@@ -286,7 +292,7 @@ class ActionControllerSpec extends ASpec {
         response.json.title == cmd.title
         response.json.amount == cmd.amount
         dateFormater.format(DatatypeConverter.parseDateTime((String)response.json.date).getTime()) == cmd.date
-        JSONObject.NULL.equals(response.json.recurring)
+        response.json.recurring.id == recurring1.id
 
         def listActions = Action.findAll()
 
@@ -295,7 +301,7 @@ class ActionControllerSpec extends ASpec {
         listActions.get(0).title == cmd.title
         listActions.get(0).amount == cmd.amount
         dateFormater.format(listActions.get(0).date) == cmd.date
-        listActions.get(0).recurring == null
+        listActions.get(0).recurring == recurring1
         listActions.get(1) == action2
         listActions.get(2) == action3
     }
