@@ -1,3 +1,4 @@
+import marshallers.ActionMarshaller
 import marshallers.TypeMarshaller
 import marshallers.UserMarshaller
 
@@ -8,6 +9,10 @@ beans = {
     }
 
     typeMarshaller(TypeMarshaller) { bean ->
+        bean.autowire = 'byName'
+    }
+
+    actionMarshaller(ActionMarshaller) { bean ->
         bean.autowire = 'byName'
     }
 }

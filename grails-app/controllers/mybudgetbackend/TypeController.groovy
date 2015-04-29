@@ -86,8 +86,8 @@ class TypeController extends RestfulController {
 @Validateable(nullable = true)
 @ToString
 public class TypeCommand {
-    Long id
-    Long idParent
+    long id
+    long idParent
     String title;
     boolean isIncoming;
     int rgb;

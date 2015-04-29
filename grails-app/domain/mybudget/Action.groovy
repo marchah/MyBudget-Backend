@@ -5,15 +5,18 @@ class Action {
     String title;
     double amount;
     Date date;
-    long idRecurring;
 
     Type type
-    static belongsTo = [Type]
+    User user
+    static belongsTo = [Type, User]
+
+    Recurring recurring;
+    static hasOne = [Recurring]
 
     static constraints = {
         title blank: false
         amount blank: false
         date blank: false
-        idRecurring nullable: true
+        recurring nullable: true
     }
 }

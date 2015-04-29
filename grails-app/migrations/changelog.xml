@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
-    <changeSet author="marcha (generated)" id="1429828953031-1">
+    <changeSet author="marcha (generated)" id="1430326445146-1">
         <createTable tableName="action">
             <column autoIncrement="true" name="id" type="bigint">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="actionPK"/>
@@ -14,26 +14,24 @@
             <column name="date" type="datetime">
                 <constraints nullable="false"/>
             </column>
-            <column name="id_recurring" type="bigint">
-                <constraints nullable="false"/>
-            </column>
+            <column name="recurring_id" type="bigint"/>
             <column name="title" type="varchar(255)">
                 <constraints nullable="false"/>
             </column>
             <column name="type_id" type="bigint">
                 <constraints nullable="false"/>
             </column>
+            <column name="user_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
         </createTable>
     </changeSet>
-    <changeSet author="marcha (generated)" id="1429828953031-2">
+    <changeSet author="marcha (generated)" id="1430326445146-2">
         <createTable tableName="recurring">
             <column autoIncrement="true" name="id" type="bigint">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="recurringPK"/>
             </column>
             <column name="version" type="bigint">
-                <constraints nullable="false"/>
-            </column>
-            <column name="action_id" type="bigint">
                 <constraints nullable="false"/>
             </column>
             <column name="create_date" type="datetime">
@@ -47,7 +45,7 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet author="marcha (generated)" id="1429828953031-3">
+    <changeSet author="marcha (generated)" id="1430326445146-3">
         <createTable tableName="type">
             <column autoIncrement="true" name="id" type="bigint">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="typePK"/>
@@ -55,12 +53,10 @@
             <column name="version" type="bigint">
                 <constraints nullable="false"/>
             </column>
-            <column name="id_parent" type="bigint">
-                <constraints nullable="false"/>
-            </column>
             <column name="is_incoming" type="bit">
                 <constraints nullable="false"/>
             </column>
+            <column name="parent_id" type="bigint"/>
             <column name="rgb" type="integer">
                 <constraints nullable="false"/>
             </column>
@@ -72,7 +68,7 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet author="marcha (generated)" id="1429828953031-4">
+    <changeSet author="marcha (generated)" id="1430326445146-4">
         <createTable tableName="user">
             <column autoIncrement="true" name="id" type="bigint">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="userPK"/>
@@ -95,54 +91,58 @@
             <column name="login" type="varchar(15)">
                 <constraints nullable="false"/>
             </column>
-            <column name="password_hash" type="varchar(255)">
-                <constraints nullable="false"/>
-            </column>
+            <column name="password_hash" type="varchar(255)"/>
             <column name="token" type="varchar(255)"/>
         </createTable>
     </changeSet>
-    <changeSet author="marcha (generated)" id="1429828953031-8">
+    <changeSet author="marcha (generated)" id="1430326445146-10">
         <createIndex indexName="FK_2isde2tuo612dvjhk5cbuk736" tableName="action">
             <column name="type_id"/>
         </createIndex>
     </changeSet>
-    <changeSet author="marcha (generated)" id="1429828953031-9">
-        <createIndex indexName="FK_62moy57i34lm4dpaykiqyl9wo" tableName="recurring">
-            <column name="action_id"/>
+    <changeSet author="marcha (generated)" id="1430326445146-11">
+        <createIndex indexName="FK_46qrfd2llot5joto3o7yid9by" tableName="action">
+            <column name="recurring_id"/>
         </createIndex>
     </changeSet>
-    <changeSet author="marcha (generated)" id="1429828953031-10">
+    <changeSet author="marcha (generated)" id="1430326445146-12">
+        <createIndex indexName="FK_mjqldgbv9nm881gue9mgju2jv" tableName="action">
+            <column name="user_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="marcha (generated)" id="1430326445146-13">
+        <createIndex indexName="FK_7svluokfq9p07n4xeveeffyyh" tableName="type">
+            <column name="parent_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="marcha (generated)" id="1430326445146-14">
         <createIndex indexName="FK_q5x10akjbn1fve4w0unofbgn1" tableName="type">
             <column name="user_id"/>
         </createIndex>
     </changeSet>
-    <changeSet author="marcha (generated)" id="1429828953031-11">
-        <createIndex indexName="UK_cv890lwc9th6go54id7cdhsy5" tableName="type" unique="true">
+    <changeSet author="marcha (generated)" id="1430326445146-15">
+        <createIndex indexName="title_uniq_1430326445086" tableName="type" unique="true">
             <column name="title"/>
         </createIndex>
     </changeSet>
-    <changeSet author="marcha (generated)" id="1429828953031-12">
-        <createIndex indexName="title_uniq_1429828952940" tableName="type" unique="true">
-            <column name="title"/>
-        </createIndex>
-    </changeSet>
-    <changeSet author="marcha (generated)" id="1429828953031-13">
-        <createIndex indexName="UK_ew1hvam8uwaknuaellwhqchhb" tableName="user" unique="true">
+    <changeSet author="marcha (generated)" id="1430326445146-16">
+        <createIndex indexName="login_uniq_1430326445091" tableName="user" unique="true">
             <column name="login"/>
         </createIndex>
     </changeSet>
-    <changeSet author="marcha (generated)" id="1429828953031-14">
-        <createIndex indexName="login_uniq_1429828952952" tableName="user" unique="true">
-            <column name="login"/>
-        </createIndex>
+    <changeSet author="marcha (generated)" id="1430326445146-5">
+        <addForeignKeyConstraint baseColumnNames="recurring_id" baseTableName="action" constraintName="FK_46qrfd2llot5joto3o7yid9by" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="recurring" referencesUniqueColumn="false"/>
     </changeSet>
-    <changeSet author="marcha (generated)" id="1429828953031-5">
+    <changeSet author="marcha (generated)" id="1430326445146-6">
         <addForeignKeyConstraint baseColumnNames="type_id" baseTableName="action" constraintName="FK_2isde2tuo612dvjhk5cbuk736" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="type" referencesUniqueColumn="false"/>
     </changeSet>
-    <changeSet author="marcha (generated)" id="1429828953031-6">
-        <addForeignKeyConstraint baseColumnNames="action_id" baseTableName="recurring" constraintName="FK_62moy57i34lm4dpaykiqyl9wo" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="action" referencesUniqueColumn="false"/>
+    <changeSet author="marcha (generated)" id="1430326445146-7">
+        <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="action" constraintName="FK_mjqldgbv9nm881gue9mgju2jv" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="user" referencesUniqueColumn="false"/>
     </changeSet>
-    <changeSet author="marcha (generated)" id="1429828953031-7">
+    <changeSet author="marcha (generated)" id="1430326445146-8">
+        <addForeignKeyConstraint baseColumnNames="parent_id" baseTableName="type" constraintName="FK_7svluokfq9p07n4xeveeffyyh" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="type" referencesUniqueColumn="false"/>
+    </changeSet>
+    <changeSet author="marcha (generated)" id="1430326445146-9">
         <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="type" constraintName="FK_q5x10akjbn1fve4w0unofbgn1" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="user" referencesUniqueColumn="false"/>
     </changeSet>
 </databaseChangeLog>

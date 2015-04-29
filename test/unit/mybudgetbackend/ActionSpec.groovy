@@ -65,7 +65,7 @@ class ActionSpec extends Specification {
 
     void 'test save'(){
         when:
-        def action = new Action(title: 'Action 1', amount: 42.5, date: new Date(), type: typeParent1)
+        def action = new Action(title: 'Action 1', amount: 42.5, date: new Date(), type: typeParent1, user: user1)
         action.save(flush: true)
 
         then:
@@ -74,7 +74,7 @@ class ActionSpec extends Specification {
 
     void 'test update'(){
         when:
-        def action = new Action(title: 'Action 1', amount: 42.5, date: new Date(), type: typeParent1)
+        def action = new Action(title: 'Action 1', amount: 42.5, date: new Date(), type: typeParent1, user: user1)
         action.save(flush: true)
 
         action.title = 'Action 2'
@@ -88,10 +88,10 @@ class ActionSpec extends Specification {
 
     void 'test select'(){
         when:
-        def action1 = new Action(title: 'Action 1', amount: 42.5, date: new Date(), type: typeParent1)
+        def action1 = new Action(title: 'Action 1', amount: 42.5, date: new Date(), type: typeParent1, user: user1)
         action1.save(flush: true)
 
-        def action2 = new Action(title: 'Action 2', amount: 21.99, date: new Date(), type: typeParent1)
+        def action2 = new Action(title: 'Action 2', amount: 21.99, date: new Date(), type: typeParent1, user: user1)
         action2.save(flush: true)
 
         then:
@@ -104,7 +104,7 @@ class ActionSpec extends Specification {
 
     void 'test delete'(){
         when:
-        def action = new Action(title: 'Action 1', amount: 42.5, date: new Date(), type: typeParent1)
+        def action = new Action(title: 'Action 1', amount: 42.5, date: new Date(), type: typeParent1, user: user1)
         action.save(flush: true)
 
         then:
