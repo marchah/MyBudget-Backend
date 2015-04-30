@@ -9,12 +9,12 @@ class AuthenticateFilters {
         all(controller:'*', action:'*') {
             before = {
                 if (!actionName.equals('signup') && !actionName.equals('signin')) {
-                    def token = getAuthenticationToken(request)
+                    def credentials = getAuthenticationCredentials(request)
                     def user
 
                     // put user into request scope
-                    if (token) {
-                        user = User.findByToken(token, [cache: true])
+                    if (credentials) {
+                        user = User.findByLoginAndToken(credentials[0], credentials[1], [cache: true])
                         if (user) {
                             request.user = user
                         }
@@ -34,19 +34,19 @@ class AuthenticateFilters {
         }
     }
 
-    def getAuthenticationToken(def request) {
+    def getAuthenticationCredentials(def request) {
         def authString = request.getHeader('Authorization')
-        /*def username = null
+        def credentials = null
 
         if (authString) {
             def encodedPair = authString - 'Basic '
             def decodedPair = new String(encodedPair.decodeBase64());
-            def credentials = decodedPair.split(':')
+            credentials = decodedPair.split(':')
 
-            username = (credentials.size() > 0 ? credentials[0] : null)
+            if (credentials == null || credentials.length != 2) {
+                credentials = null
+            }
         }
-
-        username*/
-        authString
+        credentials
     }
 }
