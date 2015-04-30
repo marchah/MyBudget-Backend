@@ -14,7 +14,10 @@ class AuthenticateFilters {
 
                     // put user into request scope
                     if (credentials) {
-                        user = User.findByLoginAndToken(credentials[0], credentials[1], [cache: true])
+                        user = User.findByLogin(credentials[0], [cache: true])
+                        if (!user.token.token.equals(credentials[1])) {
+                            user = null
+                        }
                         if (user) {
                             request.user = user
                         }

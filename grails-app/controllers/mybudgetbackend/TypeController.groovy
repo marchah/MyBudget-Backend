@@ -83,7 +83,7 @@ class TypeController extends RestfulController {
     }
 }
 
-@Validateable(nullable = true)
+@Validateable
 @ToString
 public class TypeCommand {
     long id

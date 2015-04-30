@@ -2,6 +2,7 @@ package mybudgetbackend
 
 import grails.converters.JSON
 import grails.rest.RestfulController
+import mybudget.Token
 import mybudget.User
 import mybudgetbackend.transfert.AuthenticationCredentials
 import org.apache.http.HttpStatus
@@ -30,32 +31,14 @@ class AuthenticationController extends RestfulController {
             if (user == null || !isPasswordValid(signin.password, user)) {
                 render status: HttpStatus.SC_UNAUTHORIZED
             } else {
-                user.updateToken()
+                user.token.updateToken()
                 user.save()
                 def ret = [
                         login: user.login,
-                        token: user.token
+                        token: user.token.token
                 ]
                 render ret as JSON
             }
-        }
-    }
-
-    def signup(User user) {
-        if (user == null) {
-            render status: HttpStatus.SC_NOT_FOUND
-        } else if (user.hasErrors()) {
-            response.status = HttpStatus.SC_UNPROCESSABLE_ENTITY
-            render user.errors as JSON
-        } else {
-            user.passwordHash = user.password.encodeAsBcrypt()
-            user.updateToken()
-            user.save(flush:true)
-            def ret = [
-                login: user.login,
-                token: user.token
-            ]
-            render ret as JSON
         }
     }
 

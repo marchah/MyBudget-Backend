@@ -12,42 +12,7 @@ import spock.lang.Specification
  * See the API for {@link grails.test.mixin.web.ControllerUnitTestMixin} for usage instructions
  */
 @TestFor(TypeController)
-@Mock([User, Type])
-class TypeControllerSpec extends Specification {
-
-    def user1
-    def user2
-    def typeParent1
-    def typeParent2
-    def typeToDeleteForbidden
-
-    def setup() {
-        user1 = new User(displayName: 'User1', login: 'user1', password: 'totoauzoo', email: 'user1@email.com')
-        user1.save(flush: true)
-
-        user2 = new User(displayName: 'User2', login: 'user2', password: 'totoauzoo', email: 'user2@email.com')
-        user2.save(flush: true)
-
-        typeParent1 = new Type(title: 'Parent 1', user: user1)
-        typeParent1.save(flush: true)
-
-        typeParent2 = new Type(title: 'Parent 2', user: user1)
-        typeParent2.save(flush: true)
-
-        typeToDeleteForbidden = new Type(title: 'typeToDeleteForbidden', user: user2)
-        typeToDeleteForbidden.save(flush: true)
-
-        request.user = user1
-    }
-
-    def cleanup() {
-        user1.delete(flush: true)
-        user2.delete(flush: true)
-
-        typeParent1.delete(flush: true)
-        typeParent2.delete(flush: true)
-        typeToDeleteForbidden.delete(flush: true)
-    }
+class TypeControllerSpec extends AControllerSpec {
 
     void "test index [basic]"() {
         when:
@@ -58,14 +23,14 @@ class TypeControllerSpec extends Specification {
         response.getJson().findAll().size() == 2
 
         response.json[0].id == typeParent1.id
-        JSONObject.NULL.equals(response.json[0].parent)// == typeParent1.parent
+        JSONObject.NULL.equals(response.json[0].parent)
         response.json[0].title == typeParent1.title
         response.json[0].isIncoming == typeParent1.isIncoming
         response.json[0].rgb == typeParent1.rgb
         response.json[0].user.id == typeParent1.user.id
 
         response.json[1].id == typeParent2.id
-        JSONObject.NULL.equals(response.json[1].parent)// == typeParent2.parent
+        JSONObject.NULL.equals(response.json[1].parent)
         response.json[1].title == typeParent2.title
         response.json[1].isIncoming == typeParent2.isIncoming
         response.json[1].rgb == typeParent2.rgb
@@ -87,14 +52,14 @@ class TypeControllerSpec extends Specification {
         response.getJson().findAll().size() == 4
 
         response.json[0].id == typeParent1.id
-        JSONObject.NULL.equals(response.json[0].parent)// == typeParent1.parent
+        JSONObject.NULL.equals(response.json[0].parent)
         response.json[0].title == typeParent1.title
         response.json[0].isIncoming == typeParent1.isIncoming
         response.json[0].rgb == typeParent1.rgb
         response.json[0].user.id == typeParent1.user.id
 
         response.json[1].id == typeParent2.id
-        JSONObject.NULL.equals(response.json[1].parent)// == typeParent2.parent
+        JSONObject.NULL.equals(response.json[1].parent)
         response.json[1].title == typeParent2.title
         response.json[1].isIncoming == typeParent2.isIncoming
         response.json[1].rgb == typeParent2.rgb
@@ -243,12 +208,8 @@ class TypeControllerSpec extends Specification {
 
     void "test delete [with not owner]"() {
         when:
-        controller.delete(typeToDeleteForbidden.id)
+        controller.delete(typeParent3.id)
         then:
         response.status == HttpStatus.SC_FORBIDDEN
     }
-
-    /*
-    ** TODO: add unit test to check the acces to type of other user
-     */
 }

@@ -1,8 +1,10 @@
 package mybudgetbackend
 
+import bcrypt.BcryptCodec
 import grails.test.mixin.Mock
 import mybudget.Action
 import mybudget.Recurring
+import mybudget.Token
 import mybudget.Type
 import mybudget.User
 import spock.lang.Specification
@@ -10,7 +12,7 @@ import spock.lang.Specification
 /**
  * Created by marcha on 4/29/15.
  */
-@Mock([User, Type, Action, Recurring])
+@Mock([User, Type, Action, Recurring, Token])
 abstract class ADomainSpec extends Specification {
 
     def user1
@@ -22,11 +24,19 @@ abstract class ADomainSpec extends Specification {
     def action2
     def action3
 
+    def password = 'totoauzoo'
+
     def setup() {
-        user1 = new User(displayName: 'User1', login: 'user1', password: 'totoauzoo', email: 'user1@email.com')
+        mockCodec(BcryptCodec)
+
+        user1 = new User(displayName: 'User1', login: 'user1', email: 'user1@email.com', token: new Token())
+        user1.token.updateToken()
+        user1.passwordHash = password.encodeAsBcrypt()
         user1.save(flush: true)
 
-        user2 = new User(displayName: 'User2', login: 'user2', password: 'totoauzoo', email: 'user2@email.com')
+        user2 = new User(displayName: 'User2', login: 'user2', email: 'user2@email.com', token: new Token())
+        user2.token.updateToken()
+        user2.passwordHash = password.encodeAsBcrypt()
         user2.save(flush: true)
 
         typeParent1 = new Type(title: 'Parent 1', user: user1)

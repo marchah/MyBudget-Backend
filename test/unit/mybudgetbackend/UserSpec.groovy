@@ -1,7 +1,7 @@
 package mybudgetbackend
 
-import bcrypt.BcryptCodec
 import grails.test.mixin.TestFor
+import mybudget.Token
 import mybudget.User
 
 /**
@@ -9,10 +9,6 @@ import mybudget.User
  */
 @TestFor(User)
 class UserSpec extends ADomainSpec {
-
-    def setup() {
-        mockCodec(BcryptCodec)
-    }
 
     void 'test constraint'() {
         given:
@@ -24,16 +20,15 @@ class UserSpec extends ADomainSpec {
         then: 'validation should fail'
         !user.validate()
         user.hasErrors()
+        println user.errors
         user.errors['displayName'] == 'nullable'
         user.errors['login'] == 'nullable'
         user.errors['email'] == 'nullable'
-        user.errors['password'] == 'nullable'
 
         when: 'the user fields are blank'
         user.displayName = ''
         user.login = ''
         user.email = ''
-        user.password = ''
 
         then: 'validation should fail'
         !user.validate()
@@ -41,13 +36,11 @@ class UserSpec extends ADomainSpec {
         user.errors['displayName'] == 'blank'
         user.errors['login'] == 'blank'
         user.errors['email'] == 'blank'
-        user.errors['password'] == 'blank'
 
         when: 'the user email is incorrect'
         user.displayName = 'User'
         user.login = 'user'
         user.email = 'user@emailcom'
-        user.password = 'totoauzoo'
 
         then: 'validation should fail'
         !user.validate()
@@ -93,30 +86,14 @@ class UserSpec extends ADomainSpec {
         user.hasErrors()
         user.errors['login'] == 'unique'
 
-
-        when: 'the user password is incorrect 1/2'
-        user.password = '1234'
-
-        then: 'validation should fail'
-        !user.validate()
-        user.hasErrors()
-        user.errors['password'] == 'size'
-
-
-        when: 'the user password is incorrect 2/2'
-        user.password = '12344444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444'
-
-        then: 'validation should fail'
-        !user.validate()
-        user.hasErrors()
-        user.errors['password'] == 'size'
-
         when: 'the user token is OK'
         user = new User()
         user.displayName = 'User42'
         user.login = 'user42'
-        user.password = 'totoauzoo'
         user.email = 'user42@email.com'
+        user.token = new Token()
+        user.token.updateToken()
+        user.passwordHash = password.encodeAsBcrypt()
 
         then: 'validation should success'
         user.validate()
@@ -125,9 +102,9 @@ class UserSpec extends ADomainSpec {
 
     void 'test save'(){
         when:
-        def user = new User(displayName: 'User42', login: 'user42', email: 'user42@email.com', password: 'totoauzoo')
-        user.updateToken()
-        user.passwordHash = user.password.encodeAsBcrypt()
+        def user = new User(displayName: 'User42', login: 'user42', email: 'user42@email.com', token: new Token())
+        user.token.updateToken()
+        user.passwordHash = password.encodeAsBcrypt()
         user.save(flush: true)
 
         then:
@@ -136,9 +113,9 @@ class UserSpec extends ADomainSpec {
 
     void 'test update'(){
         when:
-        def user = new User(displayName: 'User42', login: 'user42', email: 'user42@email.com', password: 'totoauzoo')
-        user.updateToken()
-        user.passwordHash = user.password.encodeAsBcrypt()
+        def user = new User(displayName: 'User42', login: 'user42', email: 'user42@email.com', token: new Token())
+        user.token.updateToken()
+        user.passwordHash = password.encodeAsBcrypt()
         user.save(flush: true)
 
         user.displayName = 'TOTO42'
@@ -151,14 +128,14 @@ class UserSpec extends ADomainSpec {
 
     void 'test select'(){
         when:
-        def user3 = new User(displayName: 'User3', login: 'user3', email: 'user3@email.com', password: 'totoauzoo')
-        user3.updateToken()
-        user3.passwordHash = user3.password.encodeAsBcrypt()
+        def user3 = new User(displayName: 'User3', login: 'user3', email: 'user3@email.com', token: new Token())
+        user3.token.updateToken()
+        user3.passwordHash = password.encodeAsBcrypt()
         user3.save(flush: true)
 
-        def user4 = new User(displayName: 'User4', login: 'user4', email: 'user4@email.com', password: 'totoauzoo')
-        user4.updateToken()
-        user4.passwordHash = user4.password.encodeAsBcrypt()
+        def user4 = new User(displayName: 'User4', login: 'user4', email: 'user4@email.com', token: new Token())
+        user4.token.updateToken()
+        user4.passwordHash = password.encodeAsBcrypt()
         user4.save(flush: true)
 
         then:
@@ -173,9 +150,9 @@ class UserSpec extends ADomainSpec {
 
     void 'test delete'(){
         when:
-        def user = new User(displayName: 'User42', login: 'user42', email: 'user42@email.com', password: 'totoauzoo')
-        user.updateToken()
-        user.passwordHash = user.password.encodeAsBcrypt()
+        def user = new User(displayName: 'User42', login: 'user42', email: 'user42@email.com', token: new Token())
+        user.token.updateToken()
+        user.passwordHash = password.encodeAsBcrypt()
         user.save(flush: true)
 
         then:
