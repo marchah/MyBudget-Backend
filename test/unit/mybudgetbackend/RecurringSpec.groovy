@@ -1,7 +1,6 @@
 package mybudgetbackend
 
 import grails.test.mixin.TestFor
-import mybudget.Action
 import mybudget.Recurring
 
 /**

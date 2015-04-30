@@ -18,10 +18,10 @@ class User {
     static transients = ['password']
 
     static constraints = {
-        displayName blank: false
-        login size: 5..15, blank: false, unique: true, matches: '^[a-zA-Z0-9_]+$'
-        password size: 5..15, blank: false, bindable: true
-        email email: true
+        displayName blank: false, size: 5..30
+        login blank: false, size: 5..15, unique: true, matches: '^[a-zA-Z0-9_]+$'
+        password blank: false, size: 5..15, nullable : false, bindable: true
+        email blank: false, email: true
         passwordHash nullable: true
         token nullable: true
     }
