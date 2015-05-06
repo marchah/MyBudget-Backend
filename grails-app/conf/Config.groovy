@@ -117,3 +117,11 @@ log4j.main = {
 }
 
 grails.app.context = '/'
+
+cors.headers=[
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Credentials': true,
+        'Access-Control-Allow-Headers': 'origin, authorization, accept, content-type, x-requested-with, accept-version, token, authentication',
+        'Access-Control-Allow-Methods': 'GET, HEAD, POST, PUT, DELETE, TRACE, OPTIONS',
+        'Access-Control-Max-Age': 3600
+]

@@ -1,7 +1,6 @@
 import marshallers.ActionMarshaller
 import marshallers.RecurringMarshaller
 import marshallers.TypeMarshaller
-import marshallers.UserMarshaller
 
 // Place your Spring DSL code here
 beans = {

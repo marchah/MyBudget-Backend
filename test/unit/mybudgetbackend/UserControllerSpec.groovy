@@ -128,7 +128,6 @@ class UserControllerSpec extends AControllerSpec {
 
         then:
         response.status == HttpStatus.SC_UNPROCESSABLE_ENTITY
-        println response.getText()
     }
 
     void "test signup"() {

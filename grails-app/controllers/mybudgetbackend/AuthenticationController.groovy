@@ -34,6 +34,7 @@ class AuthenticationController extends RestfulController {
                 user.token.updateToken()
                 user.save()
                 def ret = [
+                        displayName: user.displayName,
                         login: user.login,
                         token: user.token.token
                 ]

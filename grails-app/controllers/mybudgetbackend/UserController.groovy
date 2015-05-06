@@ -35,6 +35,7 @@ class UserController extends RestfulController {
             } else {
                 user.save(flush: true)
                 def ret = [
+                        displayName: user.displayName,
                         login: user.login,
                         token: user.token.token
                 ]
