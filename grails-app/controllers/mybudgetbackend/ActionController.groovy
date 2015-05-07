@@ -8,6 +8,7 @@ import mybudget.Action
 import mybudget.Date
 import mybudget.Type
 import mybudget.User
+import org.apache.commons.lang.StringUtils
 import org.apache.http.HttpStatus
 import org.hibernate.criterion.CriteriaSpecification
 
@@ -21,7 +22,26 @@ class ActionController extends RestfulController {
     }
 
     def index() {
-        render Action.findAllByUser(currentUser()) as JSON
+        int nbActionPerCall = 20;
+        int position = 0;
+
+        if (StringUtils.isNumeric(params.nbActionPerCall) && Integer.parseInt(params.nbActionPerCall) > 0 && Integer.parseInt(params.nbActionPerCall) < 50) {
+            nbActionPerCall = Integer.parseInt(params.nbActionPerCall)
+        }
+
+        if (StringUtils.isNumeric(params.nbActionPerCall) &&  Integer.parseInt(params.offset) > 0) {
+            position = Integer.parseInt(params.offset)
+        }
+
+        def result = Action.createCriteria().list(max: nbActionPerCall, offset: position) {
+            projections {
+                eq('user', currentUser())
+                date {
+                    order('date', 'desc')
+                }
+            }
+        }
+        render result as JSON
     }
 
     def sum() {
@@ -59,7 +79,6 @@ class ActionController extends RestfulController {
                 render status: HttpStatus.SC_FORBIDDEN
             } else {
                 def action = new Action(type: type, title: cmd.title, amount: cmd.amount, user: currentUser(), date: new Date(cmd.date))
-                println action.date as JSON
                 action.validate()
                 if (action.hasErrors()) {
                     response.status = HttpStatus.SC_UNPROCESSABLE_ENTITY
