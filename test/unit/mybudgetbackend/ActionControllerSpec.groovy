@@ -28,14 +28,20 @@ class ActionControllerSpec extends AControllerSpec {
         response.json[0].id == action1.id
         response.json[0].title == action1.title
         response.json[0].amount == action1.amount
-        dateFormater.format(DatatypeConverter.parseDateTime((String)response.json[0].date).getTime()) == dateFormater.format(action1.date)
+        response.json[0].date.day == 10
+        response.json[0].date.week == 45
+        response.json[0].date.month == 11
+        response.json[0].date.year == 2012
         response.json[0].type.id == typeParent1.id
         response.json[0].recurring.id == recurring1.id
 
         response.json[1].id == action2.id
         response.json[1].title == action2.title
         response.json[1].amount == action2.amount
-        dateFormater.format(DatatypeConverter.parseDateTime((String)response.json[1].date).getTime()) == dateFormater.format(action2.date)
+        response.json[1].date.day == 9
+        response.json[1].date.week == 42
+        response.json[1].date.month == 10
+        response.json[1].date.year == 2011
         response.json[1].type.id == typeParent2.id
         JSONObject.NULL.equals(response.json[1].recurring)
     }
@@ -152,7 +158,10 @@ class ActionControllerSpec extends AControllerSpec {
         response.json.type.id == cmd.idType
         response.json.title == cmd.title
         response.json.amount == cmd.amount
-        dateFormater.format(DatatypeConverter.parseDateTime((String)response.json.date).getTime()) == cmd.date
+        response.json.date.day == 10
+        response.json.date.week == 50
+        response.json.date.month == 12
+        response.json.date.year == 2015
         JSONObject.NULL.equals(response.json.recurring)
 
         def listActions = Action.findAll()
@@ -165,7 +174,10 @@ class ActionControllerSpec extends AControllerSpec {
         listActions.get(3).type.id == cmd.idType
         listActions.get(3).title == cmd.title
         listActions.get(3).amount == cmd.amount
-        dateFormater.format(listActions.get(3).date) == cmd.date
+        listActions.get(3).date.day == 10
+        listActions.get(3).date.week == 50
+        listActions.get(3).date.month == 12
+        listActions.get(3).date.year == 2015
         listActions.get(3).recurring == null
     }
 
@@ -291,7 +303,10 @@ class ActionControllerSpec extends AControllerSpec {
         response.json.type.id == cmd.idType
         response.json.title == cmd.title
         response.json.amount == cmd.amount
-        dateFormater.format(DatatypeConverter.parseDateTime((String)response.json.date).getTime()) == cmd.date
+        response.json.date.day == 12
+        response.json.date.week == 50
+        response.json.date.month == 12
+        response.json.date.year == 2015
         response.json.recurring.id == recurring1.id
 
         def listActions = Action.findAll()
@@ -300,7 +315,10 @@ class ActionControllerSpec extends AControllerSpec {
         listActions.get(0).type.id == cmd.idType
         listActions.get(0).title == cmd.title
         listActions.get(0).amount == cmd.amount
-        dateFormater.format(listActions.get(0).date) == cmd.date
+        listActions.get(0).date.day == 12
+        listActions.get(0).date.week == 50
+        listActions.get(0).date.month == 12
+        listActions.get(0).date.year == 2015
         listActions.get(0).recurring == recurring1
         listActions.get(1) == action2
         listActions.get(2) == action3

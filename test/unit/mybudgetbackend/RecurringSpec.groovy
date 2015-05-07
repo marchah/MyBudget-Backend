@@ -1,6 +1,7 @@
 package mybudgetbackend
 
 import grails.test.mixin.TestFor
+import mybudget.Date
 import mybudget.Recurring
 
 /**
@@ -23,7 +24,7 @@ class RecurringSpec extends ADomainSpec {
         recurring.errors['createDate'] == 'nullable'
 
         when: 'the recurring nextDate is null'
-        recurring.createDate = new Date()
+        recurring.createDate = new java.util.Date()
         recurring.nextDate = null
 
         then: 'validation should fail'
@@ -32,8 +33,8 @@ class RecurringSpec extends ADomainSpec {
         recurring.errors['nextDate'] =='nullable'
 
         when: 'the recurring endDate is null'
-        recurring.createDate = new Date()
-        recurring.nextDate = new Date()
+        recurring.createDate = new java.util.Date()
+        recurring.nextDate = new java.util.Date()
         recurring.endDate = null
         recurring.action = action1
 
@@ -44,7 +45,7 @@ class RecurringSpec extends ADomainSpec {
 
     void 'test save'(){
         when:
-        def recurring = new Recurring(createDate: new Date(), nextDate: new Date(), action: action1.id)
+        def recurring = new Recurring(createDate: new java.util.Date(), nextDate: new java.util.Date(), action: action1.id)
         recurring.save(flush: true)
 
         then:
@@ -53,10 +54,10 @@ class RecurringSpec extends ADomainSpec {
 
     void 'test update'(){
         when:
-        def recurring = new Recurring(createDate: new Date(), nextDate: new Date(), action: action1)
+        def recurring = new Recurring(createDate: new java.util.Date(), nextDate: new java.util.Date(), action: action1)
         recurring.save(flush: true)
 
-        recurring.createDate = new Date()
+        recurring.createDate = new java.util.Date()
         recurring.action = action2
 
         recurring.save(flush: true)
@@ -67,10 +68,10 @@ class RecurringSpec extends ADomainSpec {
 
     void 'test select'(){
         when:
-        def recurring1 = new Recurring(createDate: new Date(), nextDate: new Date(), action: action1)
+        def recurring1 = new Recurring(createDate: new java.util.Date(), nextDate: new java.util.Date(), action: action1)
         recurring1.save(flush: true)
 
-        def recurring2 = new Recurring(createDate: new Date(), nextDate: new Date(), action: action2)
+        def recurring2 = new Recurring(createDate: new java.util.Date(), nextDate: new java.util.Date(), action: action2)
         recurring2.save(flush: true)
 
         then:
@@ -83,7 +84,7 @@ class RecurringSpec extends ADomainSpec {
 
     void 'test delete'(){
         when:
-        def recurring = new Recurring(createDate: new Date(), nextDate: new Date(), action: action1)
+        def recurring = new Recurring(createDate: new java.util.Date(), nextDate: new java.util.Date(), action: action1)
         recurring.save(flush: true)
 
         then:

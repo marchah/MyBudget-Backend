@@ -17,7 +17,7 @@ class ActionMarshaller {
                     idType: action.type.id,
                     title: action.title,
                     amount: action.amount,
-                    date: action.date.format("dd/MM/yyyy"),
+                    date: action.date.day + "/" + action.date.month + "/" + action.date.year,
                     idRecurring: (action.recurring != null) ? action.recurring.id : 0
             ]
         }

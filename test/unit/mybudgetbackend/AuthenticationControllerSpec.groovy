@@ -29,9 +29,10 @@ class AuthenticationControllerSpec extends AControllerSpec {
 
         then:
         response.status == HttpStatus.SC_OK
-        response.getJson().findAll().size() == 2
-        response.json.login == 'user2'
+        response.getJson().findAll().size() == 3
+        response.json.login == user2.login
         response.json.token == (User.findByLogin('user2')).token.token
+        response.json.displayName == user2.displayName
     }
 
     void "test signin login"() {
@@ -40,9 +41,10 @@ class AuthenticationControllerSpec extends AControllerSpec {
 
         then:
         response.status == HttpStatus.SC_OK
-        response.getJson().findAll().size() == 2
-        response.json.login == 'user2'
+        response.getJson().findAll().size() == 3
+        response.json.login == user2.login
         response.json.token == (User.findByLogin('user2')).token.token
+        response.json.displayName == user2.displayName
     }
 
     void "test signin email failed [wrong email]"() {

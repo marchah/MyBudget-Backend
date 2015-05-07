@@ -3,6 +3,7 @@ package mybudgetbackend
 import bcrypt.BcryptCodec
 import grails.test.mixin.Mock
 import mybudget.Action
+import mybudget.Date
 import mybudget.Recurring
 import mybudget.Token
 import mybudget.Type
@@ -54,19 +55,19 @@ abstract class AControllerSpec extends Specification {
         typeParent3 = new Type(title: 'Parent 3', user: user2)
         typeParent3.save(flush: true)
 
-        action1 = new Action(title: 'Action 1', amount: 42.42, date: new Date(), type: typeParent1, user: user1)
+        action1 = new Action(title: 'Action 1', amount: 42.42, date: new Date('10/11/2012'), type: typeParent1, user: user1)
         action1.save(flush: true)
 
-        action2 = new Action(title: 'Action 2', amount: 21.21, date: new Date(), type: typeParent2, user: user1)
+        action2 = new Action(title: 'Action 2', amount: 21.21, date: new Date('09/10/2011'), type: typeParent2, user: user1)
         action2.save(flush: true)
 
-        action3 = new Action(title: 'Action 3', amount: 99.99, date: new Date(), type: typeParent3, user: user2)
+        action3 = new Action(title: 'Action 3', amount: 99.99, date: new Date('08/09/2010'), type: typeParent3, user: user2)
         action3.save(flush: true)
 
-        recurring1 = new Recurring(createDate: new Date(), nextDate: new Date(), action: action1)
+        recurring1 = new Recurring(createDate: new java.util.Date(), nextDate: new java.util.Date(), action: action1)
         recurring1.save(flush: true)
 
-        recurring2 = new Recurring(createDate: new Date(), nextDate: new Date(), action: action3)
+        recurring2 = new Recurring(createDate: new java.util.Date(), nextDate: new java.util.Date(), action: action3)
         recurring2.save(flush: true)
 
         request.user = user1

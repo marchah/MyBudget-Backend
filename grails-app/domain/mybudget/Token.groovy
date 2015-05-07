@@ -4,8 +4,8 @@ import org.apache.commons.lang.RandomStringUtils
 
 class Token {
 
-    Date dateCreated
-    Date lastUpdated
+    java.util.Date dateCreated
+    java.util.Date lastUpdated
 
     String token
 

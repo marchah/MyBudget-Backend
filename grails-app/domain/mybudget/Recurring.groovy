@@ -2,9 +2,9 @@ package mybudget
 
 class Recurring {
 
-    Date createDate;
-    Date endDate;
-    Date nextDate;
+    java.util.Date createDate;
+    java.util.Date endDate;
+    java.util.Date nextDate;
 
     static belongsTo = [action:Action]
 

@@ -5,11 +5,11 @@ import grails.rest.RestfulController
 import grails.validation.Validateable
 import groovy.transform.ToString
 import mybudget.Action
+import mybudget.Date
 import mybudget.Type
 import mybudget.User
 import org.apache.http.HttpStatus
-
-import java.text.SimpleDateFormat
+import org.hibernate.criterion.CriteriaSpecification
 
 class ActionController extends RestfulController {
 
@@ -22,6 +22,27 @@ class ActionController extends RestfulController {
 
     def index() {
         render Action.findAllByUser(currentUser()) as JSON
+    }
+
+    def sum() {
+        def result = Action.createCriteria().list() {
+            resultTransformer(CriteriaSpecification.ALIAS_TO_ENTITY_MAP)
+            projections {
+                sum('amount', 'total')
+                date {
+                    if (params.date == 'month') {
+                        groupProperty('month', 'month')
+                    } else if (params.date == 'day') {
+                        groupProperty('day', 'day')
+                        groupProperty('month', 'month')
+                    } else if (params.date == 'week') {
+                        groupProperty('week', 'week')
+                    }
+                    groupProperty('year', 'year')
+                }
+            }
+        }
+        render result as JSON
     }
 
     def create(ActionCommand cmd) {
@@ -37,7 +58,8 @@ class ActionController extends RestfulController {
             } else if (type.user != currentUser()) {
                 render status: HttpStatus.SC_FORBIDDEN
             } else {
-                def action = new Action(type: type, title: cmd.title, amount: cmd.amount, user: currentUser(), date: new SimpleDateFormat('dd/MM/yyyy').parse(cmd.date))
+                def action = new Action(type: type, title: cmd.title, amount: cmd.amount, user: currentUser(), date: new Date(cmd.date))
+                println action.date as JSON
                 action.validate()
                 if (action.hasErrors()) {
                     response.status = HttpStatus.SC_UNPROCESSABLE_ENTITY
@@ -69,7 +91,7 @@ class ActionController extends RestfulController {
                 action.type = type
                 action.title = cmd.title
                 action.amount = cmd.amount
-                action.date = new SimpleDateFormat('dd/MM/yyyy').parse(cmd.date)
+                action.date.setDate(cmd.date)
                 action.validate()
                 if (action.hasErrors()) {
                     response.status = HttpStatus.SC_UNPROCESSABLE_ENTITY
