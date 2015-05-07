@@ -4,8 +4,13 @@ import java.text.SimpleDateFormat
 
 class Date {
 
-    int day
-    int week
+
+    java.util.Date date
+    int dayInWeek
+    int dayInMonth
+    int dayInYear
+    int weekInMonth
+    int weekInYear
     int month
     int year
 
@@ -21,24 +26,22 @@ class Date {
         setDate(date)
     }
 
-    def setDate(java.util.Date date) {
+    def setDate(java.util.Date datetime) {
         Calendar cal = Calendar.getInstance();
-        cal.setTime(date.getTime());
+        cal.setTime(datetime);
 
-        day = cal.get(Calendar.DAY_OF_MONTH);
-        week = cal.get(Calendar.WEEK_OF_YEAR);
+        this.date = datetime
+        dayInWeek = cal.get(Calendar.DAY_OF_WEEK);
+        dayInMonth = cal.get(Calendar.DAY_OF_MONTH);
+        dayInYear = cal.get(Calendar.DAY_OF_YEAR);
+        weekInMonth = cal.get(Calendar.WEEK_OF_MONTH);
+        weekInYear = cal.get(Calendar.WEEK_OF_YEAR);
         month = cal.get(Calendar.MONTH) + 1;
         year = cal.get(Calendar.YEAR);
     }
 
-    def setDate(String date) {
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(new SimpleDateFormat('dd/MM/yyyy').parse(date));
-
-        day = cal.get(Calendar.DAY_OF_MONTH);
-        week = cal.get(Calendar.WEEK_OF_YEAR);
-        month = cal.get(Calendar.MONTH) + 1;
-        year = cal.get(Calendar.YEAR);
+    def setDate(String dateString) {
+        setDate(new SimpleDateFormat('dd/MM/yyyy').parse(dateString))
     }
 
 

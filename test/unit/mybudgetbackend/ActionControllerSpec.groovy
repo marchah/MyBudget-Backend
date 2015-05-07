@@ -28,8 +28,8 @@ class ActionControllerSpec extends AControllerSpec {
         response.json[0].id == action1.id
         response.json[0].title == action1.title
         response.json[0].amount == action1.amount
-        response.json[0].date.day == 10
-        response.json[0].date.week == 45
+        response.json[0].date.dayInMonth == 10
+        response.json[0].date.weekInYear == 45
         response.json[0].date.month == 11
         response.json[0].date.year == 2012
         response.json[0].type.id == typeParent1.id
@@ -38,8 +38,8 @@ class ActionControllerSpec extends AControllerSpec {
         response.json[1].id == action2.id
         response.json[1].title == action2.title
         response.json[1].amount == action2.amount
-        response.json[1].date.day == 9
-        response.json[1].date.week == 42
+        response.json[1].date.dayInMonth == 9
+        response.json[1].date.weekInYear == 42
         response.json[1].date.month == 10
         response.json[1].date.year == 2011
         response.json[1].type.id == typeParent2.id
@@ -158,8 +158,8 @@ class ActionControllerSpec extends AControllerSpec {
         response.json.type.id == cmd.idType
         response.json.title == cmd.title
         response.json.amount == cmd.amount
-        response.json.date.day == 10
-        response.json.date.week == 50
+        response.json.date.dayInMonth == 10
+        response.json.date.weekInYear == 50
         response.json.date.month == 12
         response.json.date.year == 2015
         JSONObject.NULL.equals(response.json.recurring)
@@ -174,8 +174,8 @@ class ActionControllerSpec extends AControllerSpec {
         listActions.get(3).type.id == cmd.idType
         listActions.get(3).title == cmd.title
         listActions.get(3).amount == cmd.amount
-        listActions.get(3).date.day == 10
-        listActions.get(3).date.week == 50
+        listActions.get(3).date.dayInMonth == 10
+        listActions.get(3).date.weekInYear == 50
         listActions.get(3).date.month == 12
         listActions.get(3).date.year == 2015
         listActions.get(3).recurring == null
@@ -303,8 +303,8 @@ class ActionControllerSpec extends AControllerSpec {
         response.json.type.id == cmd.idType
         response.json.title == cmd.title
         response.json.amount == cmd.amount
-        response.json.date.day == 12
-        response.json.date.week == 50
+        response.json.date.dayInMonth == 12
+        response.json.date.weekInYear == 50
         response.json.date.month == 12
         response.json.date.year == 2015
         response.json.recurring.id == recurring1.id
@@ -315,8 +315,8 @@ class ActionControllerSpec extends AControllerSpec {
         listActions.get(0).type.id == cmd.idType
         listActions.get(0).title == cmd.title
         listActions.get(0).amount == cmd.amount
-        listActions.get(0).date.day == 12
-        listActions.get(0).date.week == 50
+        listActions.get(0).date.dayInMonth == 12
+        listActions.get(0).date.weekInYear == 50
         listActions.get(0).date.month == 12
         listActions.get(0).date.year == 2015
         listActions.get(0).recurring == recurring1

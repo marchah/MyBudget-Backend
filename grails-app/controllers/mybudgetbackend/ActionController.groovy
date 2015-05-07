@@ -33,10 +33,10 @@ class ActionController extends RestfulController {
                     if (params.date == 'month') {
                         groupProperty('month', 'month')
                     } else if (params.date == 'day') {
-                        groupProperty('day', 'day')
+                        groupProperty('dayInMonth', 'day')
                         groupProperty('month', 'month')
                     } else if (params.date == 'week') {
-                        groupProperty('week', 'week')
+                        groupProperty('weekInYear', 'week')
                     }
                     groupProperty('year', 'year')
                 }
