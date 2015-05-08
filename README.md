@@ -13,3 +13,4 @@ TODO
 * ActionController: when update and don't set idRecurring in ActionCommand doesn't remove the recurring, not really a problems.
 * RecurringController: doesn't support endDate
 * Unit Test: Mapping and Filter
+* Clean code in ActionController and add unit test
