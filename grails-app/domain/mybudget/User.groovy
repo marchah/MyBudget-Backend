@@ -2,8 +2,8 @@ package mybudget
 
 class User {
 
-    Date dateCreated
-    Date lastUpdated
+    java.util.Date dateCreated
+    java.util.Date lastUpdated
 
     String displayName
     String login
