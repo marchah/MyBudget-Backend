@@ -49,6 +49,7 @@ class ActionController extends RestfulController {
             resultTransformer(CriteriaSpecification.ALIAS_TO_ENTITY_MAP)
             projections {
                 sum('amount', 'total')
+                eq('user', currentUser())
                 date {
                     if (params.date == 'month') {
                         groupProperty('month', 'month')
@@ -73,6 +74,7 @@ class ActionController extends RestfulController {
             resultTransformer(CriteriaSpecification.ALIAS_TO_ENTITY_MAP)
             projections {
                 count('id', 'count')
+                eq('user', currentUser())
                 if (params.date == 'month') {
                     groupProperty('month', 'month')
                 } else if (params.date == 'day') {
@@ -132,6 +134,7 @@ class ActionController extends RestfulController {
                 resultTransformer(CriteriaSpecification.ALIAS_TO_ENTITY_MAP)
                 projections {
                     sum('amount', 'total')
+                    eq('user', currentUser())
                     date {
                         if (params.date == 'month') {
 
