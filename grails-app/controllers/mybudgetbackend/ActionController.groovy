@@ -74,7 +74,9 @@ class ActionController extends RestfulController {
             resultTransformer(CriteriaSpecification.ALIAS_TO_ENTITY_MAP)
             projections {
                 count('id', 'count')
-                eq('user', currentUser())
+                action {
+                    eq('user', currentUser())
+                }
                 if (params.date == 'month') {
                     groupProperty('month', 'month')
                 } else if (params.date == 'day') {
