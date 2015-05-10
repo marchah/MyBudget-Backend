@@ -14,3 +14,4 @@ TODO
 * RecurringController: doesn't support endDate
 * Unit Test: Mapping and Filter
 * Clean code in ActionController and add unit test
+* For Type remove unique in constraint, to it in the controller instead
