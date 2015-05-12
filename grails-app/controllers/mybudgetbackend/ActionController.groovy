@@ -109,6 +109,14 @@ class ActionController extends RestfulController {
 
         def types = []
 
+        def listExcludeTypes = [];
+
+        if (params.excludeTypes != null) {
+            for (String idType : params.excludeTypes) {
+                listExcludeTypes.add(Long.parseLong(idType))
+            }
+        }
+
         if (datesActionAvailable.size() > 0) {
             def dateActionAvailable = [day:0,week:0,month:0,year:0]
 
@@ -150,6 +158,9 @@ class ActionController extends RestfulController {
                         eq('year', dateActionAvailable.year)
                     }
                     type {
+                        if (params.excludeTypes != null) {
+                            not {'in'("id", listExcludeTypes)}
+                        }
                         groupProperty('id', 'idType')
                         property('title', 'title')
                         eq('isIncoming', Boolean.valueOf(params.isIncoming))
