@@ -31,15 +31,6 @@ class TypeSpec extends ADomainSpec {
         !type.validate()
         type.hasErrors()
         type.errors['title'] == 'blank'
-
-
-        when: 'the type title is not unique'
-        type.title = typeParent1.title
-
-        then: 'validation should fail'
-        !type.validate()
-        type.hasErrors()
-        type.errors['title'] == 'unique'
     }
 
     void 'test constraint [User]'() {

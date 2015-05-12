@@ -27,6 +27,11 @@ class TypeController extends RestfulController {
         } else if (cmd.hasErrors()) {
             response.status = HttpStatus.SC_UNPROCESSABLE_ENTITY
             render cmd.errors as JSON
+        } else if (Type.findAllByUserAndTitle(currentUser(), cmd.title).size() > 0) {
+            response.status = HttpStatus.SC_UNPROCESSABLE_ENTITY
+            flash.args = ['title']
+            flash.message = "Type title isn't unique"
+            render flash as JSON
         } else {
             def type = new Type(title:cmd.title, isIncoming:cmd.isIncoming, rgb:cmd.rgb, user:currentUser())
             type.parent = (cmd.idParent && cmd.idParent > 0) ? Type.findByIdAndUser(cmd.idParent, currentUser()) : null
@@ -49,17 +54,30 @@ class TypeController extends RestfulController {
             response.status = HttpStatus.SC_UNPROCESSABLE_ENTITY
             render cmd.errors as JSON
         } else {
-            type.title = cmd.title
-            type.isIncoming = cmd.isIncoming
-            type.rgb = cmd.rgb
-            type.parent = (cmd.idParent && cmd.idParent > 0) ? Type.findByIdAndUser(cmd.idParent, currentUser()) : null
-            type.validate()
-            if (type.hasErrors()) {
+            def listTypes = Type.findAllByUserAndTitle(currentUser(), cmd.title);
+            if (listTypes.size() > 1) {
+                response.status = HttpStatus.SC_INTERNAL_SERVER_ERROR
+                flash.args = ['title']
+                flash.message = "More than one title with the same value found"
+                render flash as JSON
+            } else if (listTypes.size() > 0 && listTypes.get(0).id != cmd.id) {
                 response.status = HttpStatus.SC_UNPROCESSABLE_ENTITY
-                render type.errors as JSON
+                flash.args = ['title']
+                flash.message = "Type title isn't unique"
+                render flash as JSON
             } else {
-                type.save(flush:true)
-                render type as JSON
+                type.title = cmd.title
+                type.isIncoming = cmd.isIncoming
+                type.rgb = cmd.rgb
+                type.parent = (cmd.idParent && cmd.idParent > 0) ? Type.findByIdAndUser(cmd.idParent, currentUser()) : null
+                type.validate()
+                if (type.hasErrors()) {
+                    response.status = HttpStatus.SC_UNPROCESSABLE_ENTITY
+                    render type.errors as JSON
+                } else {
+                    type.save(flush: true)
+                    render type as JSON
+                }
             }
         }
     }

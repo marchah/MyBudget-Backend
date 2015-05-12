@@ -80,6 +80,18 @@ class TypeControllerSpec extends AControllerSpec {
         response.json[3].user.id == type2.user.id
     }
 
+    void "test create [Title Not Unique]"() {
+        when:
+        def cmd = new TypeCommand(title: 'Parent 1')
+
+        controller.create(cmd)
+
+        then:
+        response.status == HttpStatus.SC_UNPROCESSABLE_ENTITY
+        response.json.args == ['title']
+        response.json.message == "Type title isn't unique"
+    }
+
     void "test create [basic]"() {
         when:
         def cmd = new TypeCommand(title: 'Title 1')
@@ -134,6 +146,19 @@ class TypeControllerSpec extends AControllerSpec {
         listTypes.get(2).isIncoming == cmd.isIncoming
         listTypes.get(2).rgb == cmd.rgb
         listTypes.get(2).user.id == user1.id
+    }
+
+    void "test update [Title Not Unique]"() {
+        when:
+        typeParent2.rgb = 123
+        def cmd = new TypeCommand(id: typeParent2.id, title: typeParent1.title, rgb: typeParent2.rgb)
+
+        controller.update(cmd)
+
+        then:
+        response.status == HttpStatus.SC_UNPROCESSABLE_ENTITY
+        response.json.args == ['title']
+        response.json.message == "Type title isn't unique"
     }
 
     void "test update [basic]"() {
