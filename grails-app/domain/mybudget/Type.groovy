@@ -16,6 +16,6 @@ class Type {
 
     static constraints = {
         parent nullable: true
-        title blank: false, unique:true
+        title blank: false
     }
 }
