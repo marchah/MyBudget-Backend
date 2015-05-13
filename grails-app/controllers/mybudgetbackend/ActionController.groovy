@@ -11,6 +11,7 @@ import mybudget.Type
 import mybudget.User
 import org.apache.commons.lang.StringUtils
 import org.apache.http.HttpStatus
+import org.hibernate.Criteria
 import org.hibernate.criterion.CriteriaSpecification
 
 class ActionController extends RestfulController {
@@ -35,10 +36,23 @@ class ActionController extends RestfulController {
         }
 
         def result = Action.createCriteria().list(max: nbActionPerCall, offset: position) {
+            createAlias('type', 'type', Criteria.LEFT_JOIN)
             projections {
                 eq('user', currentUser())
                 date {
                     order('date', 'desc')
+                }
+                if (params.search != null) {
+                    or {
+                        ilike("title", "%" + params.search + "%")
+                        ilike("type.title", "%" + params.search + "%")
+                    }
+                }
+                if (params.min != null) {
+                    ge("amount", Integer.parseInt(params.min)*100)
+                }
+                if (params.max != null) {
+                    le("amount", Integer.parseInt(params.max)*100)
                 }
             }
         }
