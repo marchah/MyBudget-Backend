@@ -3,7 +3,7 @@ package mybudget
 class Action {
 
     String title;
-    double amount;
+    int amount;
 
     Type type
     User user

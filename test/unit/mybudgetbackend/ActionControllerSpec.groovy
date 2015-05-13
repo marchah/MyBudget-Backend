@@ -148,7 +148,7 @@ class ActionControllerSpec extends AControllerSpec {
 
     void "test create [basic]"() {
         when:
-        def cmd = new ActionCommand(title: 'Action 4', date: "10/12/2015", idType: typeParent1.id)
+        def cmd = new ActionCommand(title: 'Action 4', date: "10/12/2015", idType: typeParent1.id, amount: 42.42)
 
         controller.create(cmd)
 
@@ -157,7 +157,7 @@ class ActionControllerSpec extends AControllerSpec {
         response.json.id == 4
         response.json.type.id == cmd.idType
         response.json.title == cmd.title
-        response.json.amount == cmd.amount
+        response.json.amount == 4242
         response.json.date.dayInMonth == 10
         response.json.date.weekInYear == 50
         response.json.date.month == 12
@@ -173,7 +173,7 @@ class ActionControllerSpec extends AControllerSpec {
         listActions.get(3).id == 4
         listActions.get(3).type.id == cmd.idType
         listActions.get(3).title == cmd.title
-        listActions.get(3).amount == cmd.amount
+        listActions.get(3).amount == 4242
         listActions.get(3).date.dayInMonth == 10
         listActions.get(3).date.weekInYear == 50
         listActions.get(3).date.month == 12
@@ -293,7 +293,7 @@ class ActionControllerSpec extends AControllerSpec {
 
     void "test update [basic]"() {
         when:
-        def cmd = new ActionCommand(id: action1.id, title: 'Action 4', date: "12/12/2015", idType: typeParent2.id)
+        def cmd = new ActionCommand(id: action1.id, title: 'Action 4', date: "12/12/2015", idType: typeParent2.id, amount: 43.43)
 
         controller.update(cmd)
 
@@ -302,7 +302,7 @@ class ActionControllerSpec extends AControllerSpec {
         response.json.id == cmd.id
         response.json.type.id == cmd.idType
         response.json.title == cmd.title
-        response.json.amount == cmd.amount
+        response.json.amount == 4343
         response.json.date.dayInMonth == 12
         response.json.date.weekInYear == 50
         response.json.date.month == 12
@@ -314,7 +314,7 @@ class ActionControllerSpec extends AControllerSpec {
         listActions.size() == 3
         listActions.get(0).type.id == cmd.idType
         listActions.get(0).title == cmd.title
-        listActions.get(0).amount == cmd.amount
+        listActions.get(0).amount == 4343
         listActions.get(0).date.dayInMonth == 12
         listActions.get(0).date.weekInYear == 50
         listActions.get(0).date.month == 12

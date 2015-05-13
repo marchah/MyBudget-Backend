@@ -67,6 +67,9 @@ class ActionController extends RestfulController {
                 }
             }
         }
+        for (def type : result) {
+            type.total /= 100
+        }
         render result as JSON
     }
 
@@ -128,6 +131,9 @@ class ActionController extends RestfulController {
                 }
             }
         }
+        for (def type : types) {
+            type.total /= 100
+        }
         def ret = [dates: datesActionAvailable, types: types]
         render ret as JSON
     }
@@ -145,7 +151,7 @@ class ActionController extends RestfulController {
             } else if (type.user != currentUser()) {
                 render status: HttpStatus.SC_FORBIDDEN
             } else {
-                def action = new Action(type: type, title: cmd.title, amount: cmd.amount, user: currentUser(), date: new Date(cmd.date))
+                def action = new Action(type: type, title: cmd.title, amount: cmd.amount*100, user: currentUser(), date: new Date(cmd.date))
                 action.validate()
                 if (action.hasErrors()) {
                     response.status = HttpStatus.SC_UNPROCESSABLE_ENTITY
@@ -176,7 +182,7 @@ class ActionController extends RestfulController {
             } else {
                 action.type = type
                 action.title = cmd.title
-                action.amount = cmd.amount
+                action.amount = cmd.amount*100
                 action.date.setDate(cmd.date)
                 action.validate()
                 if (action.hasErrors()) {

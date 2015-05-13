@@ -44,11 +44,11 @@ class ActionSpec extends ADomainSpec {
 
     void 'test update'(){
         when:
-        def action = new Action(title: 'Action 1', amount: 42.5, date: new Date(), type: typeParent1, user: user1)
+        def action = new Action(title: 'Action 1', amount: 4250, date: new Date(), type: typeParent1, user: user1)
         action.save(flush: true)
 
         action.title = 'Action 2'
-        action.amount = 42.42
+        action.amount = 4242
 
         action.save(flush: true)
 
@@ -58,10 +58,10 @@ class ActionSpec extends ADomainSpec {
 
     void 'test select'(){
         when:
-        def action4 = new Action(title: 'Action 1', amount: 42.5, date: new Date(), type: typeParent1, user: user1)
+        def action4 = new Action(title: 'Action 1', amount: 4250, date: new Date(), type: typeParent1, user: user1)
         action4.save(flush: true)
 
-        def action5 = new Action(title: 'Action 2', amount: 21.99, date: new Date(), type: typeParent1, user: user1)
+        def action5 = new Action(title: 'Action 2', amount: 2199, date: new Date(), type: typeParent1, user: user1)
         action5.save(flush: true)
 
         then:
@@ -77,7 +77,7 @@ class ActionSpec extends ADomainSpec {
 
     void 'test delete'(){
         when:
-        def action = new Action(title: 'Action 1', amount: 42.5, date: new Date(), type: typeParent1, user: user1)
+        def action = new Action(title: 'Action 1', amount: 4250, date: new Date(), type: typeParent1, user: user1)
         action.save(flush: true)
 
         then:

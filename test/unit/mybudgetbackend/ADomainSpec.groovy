@@ -49,13 +49,13 @@ abstract class ADomainSpec extends Specification {
         typeParent3 = new Type(title: 'Parent 3', user: user2)
         typeParent3.save(flush: true)
 
-        action1 = new Action(title: 'Action 1', amount: 42.42, date: new Date('10/11/2012'), type: typeParent1, user: user1)
+        action1 = new Action(title: 'Action 1', amount: 4242, date: new Date('10/11/2012'), type: typeParent1, user: user1)
         action1.save(flush: true)
 
-        action2 = new Action(title: 'Action 2', amount: 21.21, date: new Date('09/10/2011'), type: typeParent2, user: user1)
+        action2 = new Action(title: 'Action 2', amount: 2121, date: new Date('09/10/2011'), type: typeParent2, user: user1)
         action2.save(flush: true)
 
-        action3 = new Action(title: 'Action 3', amount: 99.99, date: new Date('08/09/2010'), type: typeParent3, user: user2)
+        action3 = new Action(title: 'Action 3', amount: 9999, date: new Date('08/09/2010'), type: typeParent3, user: user2)
         action3.save(flush: true)
     }
 
