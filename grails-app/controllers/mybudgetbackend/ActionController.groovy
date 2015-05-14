@@ -54,6 +54,7 @@ class ActionController extends RestfulController {
                 if (params.max != null) {
                     le("amount", Integer.parseInt(params.max)*100)
                 }
+                property('type.rgb', 'rgb')
             }
         }
         render result as JSON
@@ -78,6 +79,7 @@ class ActionController extends RestfulController {
                 }
                 type {
                     groupProperty('isIncoming', 'isIncoming')
+                    property('rgb', 'rgb')
                 }
             }
         }
@@ -139,6 +141,7 @@ class ActionController extends RestfulController {
                             not {'in'("id", ParamConverter.ConvertListStringToListLong(params.excludeTypes))}
                         }
                         groupProperty('id', 'idType')
+                        property('rgb', 'rgb')
                         property('title', 'title')
                         eq('isIncoming', Boolean.valueOf(params.isIncoming))
                     }
