@@ -18,7 +18,7 @@ class ActionMarshaller {
                     title: action.title,
                     amount: action.amount/100,
                     rgb: action.type.rgb,
-                    date: action.date.dayInMonth + "/" + action.date.month + "/" + action.date.year,
+                    date: action.date.year + "/" + action.date.month + "/" + action.date.dayInMonth,
                     idRecurring: (action.recurring != null) ? action.recurring.id : 0
             ]
         }
