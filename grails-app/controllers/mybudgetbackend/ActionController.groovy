@@ -59,6 +59,18 @@ class ActionController extends RestfulController {
         render result as JSON
     }
 
+    def get(long id) {
+        def action
+        if (!(action = Action.findById(id))) {
+            render status: HttpStatus.SC_NOT_FOUND
+        }
+        else if (action.user != currentUser()) {
+            render status: HttpStatus.SC_FORBIDDEN
+        } else {
+            render action as JSON
+        }
+    }
+
     def sum() {
         def result = Action.createCriteria().list() {
             resultTransformer(CriteriaSpecification.ALIAS_TO_ENTITY_MAP)

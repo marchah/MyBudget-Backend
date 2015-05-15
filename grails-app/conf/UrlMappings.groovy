@@ -22,6 +22,7 @@ class UrlMappings {
         "/api/v1/actions/sum"(controller: "action", action: "sum", method: "GET", namespace: 'v1')
         "/api/v1/actions/groupByType"(controller: "action", action: "groupByType", method: "GET", namespace: 'v1')
         "/api/v1/actions"(controller: "action", action: "create", method: "POST", namespace: 'v1')
+        "/api/v1/actions/$id"(controller: "action", action: "get", method: "GET", namespace: 'v1')
         "/api/v1/actions/$id"(controller: "action", action: "update", method: "POST", namespace: 'v1')
         "/api/v1/actions/$id"(controller: "action", action: "delete", method: "DELETE", namespace: 'v1')
 
