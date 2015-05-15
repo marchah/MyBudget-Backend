@@ -18,7 +18,13 @@ class TypeController extends RestfulController {
     }
 
     def index() {
-        render Type.findAllByUser(currentUser()) as JSON
+        if (params.actionType == "expense") {
+            render Type.findAllByUserAndIsIncoming(currentUser(), false) as JSON
+        } else if (params.actionType == "incoming") {
+            render Type.findAllByUserAndIsIncoming(currentUser(), true) as JSON
+        } else {
+            render Type.findAllByUser(currentUser()) as JSON
+        }
     }
 
     def create(TypeCommand cmd) {
