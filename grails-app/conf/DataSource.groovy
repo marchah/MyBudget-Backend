@@ -36,7 +36,10 @@ environments {
     }
     production {
         dataSource {
-            dbCreate = "update"
+            dbCreate = "update"//-drop"
+            url = "jdbc:mysql://localhost/mybudget?autoReconnect=true"
+            username = "root"
+            password = "root"
         }
     }
 }
