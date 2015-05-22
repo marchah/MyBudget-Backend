@@ -15,31 +15,12 @@ hibernate {
 // environment specific settings
 environments {
     development {
-        dataSource {
-            dbCreate = "update"
-            url = "jdbc:mysql://localhost/mybudget?autoReconnect=true"
-            username = "root"
-            password = "root"
-        }
-        /*dataSource {
-            dbCreate = "create-drop" // one of 'create', 'create-drop', 'update', 'validate', ''
-            url = "jdbc:h2:mem:devDb;MVCC=TRUE;LOCK_TIMEOUT=10000;DB_CLOSE_ON_EXIT=FALSE"
-        }*/
+
     }
     test {
-        dataSource {
-            dbCreate = "create"//-drop"
-            url = "jdbc:mysql://localhost/mybudgettest?autoReconnect=true"
-            username = "root"
-            password = "root"
-        }
+
     }
     production {
-        dataSource {
-            dbCreate = "update"//-drop"
-            url = "jdbc:mysql://localhost/mybudget?autoReconnect=true"
-            username = "root"
-            password = "root"
-        }
+        
     }
 }
