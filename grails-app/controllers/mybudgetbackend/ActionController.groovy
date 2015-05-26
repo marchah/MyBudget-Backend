@@ -210,7 +210,7 @@ class ActionController extends RestfulController {
             } else {
                 action.type = type
                 action.title = cmd.title
-                action.amount = cmd.amount*100
+                action.amount = Math.round(cmd.amount*100)
                 action.date.setDate(cmd.date)
                 action.validate()
                 if (action.hasErrors()) {
