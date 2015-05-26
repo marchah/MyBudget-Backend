@@ -4,12 +4,21 @@ package Utils
  */
 class ParamConverter {
 
+    def static boolean isCollectionOrArray(object) {
+        [Collection, Object[]].any { it.isAssignableFrom(object.getClass()) }
+    }
+
     def static ConvertListStringToListLong(def listString) {
         def listLong = [];
 
         if (listString != null) {
-            for (String str : listString) {
-                listLong.add(Long.parseLong(str))
+            if (!isCollectionOrArray(listString)) {
+                listLong.add(Long.parseLong(listString))
+            } else {
+                for (String str : listString) {
+                    println str
+                    listLong.add(Long.parseLong(str))
+                }
             }
         }
         return listLong
