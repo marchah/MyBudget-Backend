@@ -118,7 +118,7 @@ class ActionControllerSpec extends AControllerSpec {
 
     void "test create [unknow type 1/2]"() {
         when:
-        def cmd = new ActionCommand(title: 'Action 4', date: "10/12/2015")
+        def cmd = new ActionCommand(title: 'Action 4', date: "2015/12/10")
 
         controller.create(cmd)
 
@@ -128,7 +128,7 @@ class ActionControllerSpec extends AControllerSpec {
 
     void "test create [unknow type 2/2]"() {
         when:
-        def cmd = new ActionCommand(title: 'Action 4', date: "10/12/2015", idType: 42)
+        def cmd = new ActionCommand(title: 'Action 4', date: "2015/12/10", idType: 42)
 
         controller.create(cmd)
 
@@ -138,7 +138,7 @@ class ActionControllerSpec extends AControllerSpec {
 
     void "test create [forbidden]"() {
         when:
-        def cmd = new ActionCommand(title: 'Action 4', date: "10/12/2015", idType: typeParent3.id)
+        def cmd = new ActionCommand(title: 'Action 4', date: "2015/12/10", idType: typeParent3.id)
 
         controller.create(cmd)
 
@@ -148,7 +148,7 @@ class ActionControllerSpec extends AControllerSpec {
 
     void "test create [basic]"() {
         when:
-        def cmd = new ActionCommand(title: 'Action 4', date: "10/12/2015", idType: typeParent1.id, amount: 42.42)
+        def cmd = new ActionCommand(title: 'Action 4', date: "2015/12/10", idType: typeParent1.id, amount: 42.42)
 
         controller.create(cmd)
 
@@ -253,7 +253,7 @@ class ActionControllerSpec extends AControllerSpec {
 
     void "test update [unknow type 1/2]"() {
         when:
-        def cmd = new ActionCommand(id: action1.id, title: 'Action 4', date: "10/12/2015")
+        def cmd = new ActionCommand(id: action1.id, title: 'Action 4', date: "2015/12/10")
 
         controller.update(cmd)
 
@@ -263,7 +263,7 @@ class ActionControllerSpec extends AControllerSpec {
 
     void "test update [unknow type 2/2]"() {
         when:
-        def cmd = new ActionCommand(id: action1.id, title: 'Action 4', date: "10/12/2015", idType: 42)
+        def cmd = new ActionCommand(id: action1.id, title: 'Action 4', date: "2015/12/10", idType: 42)
 
         controller.update(cmd)
 
@@ -273,7 +273,7 @@ class ActionControllerSpec extends AControllerSpec {
 
     void "test update [forbidden 1/2]"() {
         when:
-        def cmd = new ActionCommand(id: action1.id, title: 'Action 4', date: "10/12/2015", idType: typeParent3.id)
+        def cmd = new ActionCommand(id: action1.id, title: 'Action 4', date: "2015/12/10", idType: typeParent3.id)
 
         controller.update(cmd)
 
@@ -283,7 +283,7 @@ class ActionControllerSpec extends AControllerSpec {
 
     void "test update [forbidden 2/2]"() {
         when:
-        def cmd = new ActionCommand(id: action3.id, title: 'Action 4', date: "10/12/2015", idType: typeParent1.id)
+        def cmd = new ActionCommand(id: action3.id, title: 'Action 4', date: "2015/12/10", idType: typeParent1.id)
 
         controller.update(cmd)
 
@@ -293,7 +293,7 @@ class ActionControllerSpec extends AControllerSpec {
 
     void "test update [basic]"() {
         when:
-        def cmd = new ActionCommand(id: action1.id, title: 'Action 4', date: "12/12/2015", idType: typeParent2.id, amount: 43.43)
+        def cmd = new ActionCommand(id: action1.id, title: 'Action 4', date: "2015/12/12", idType: typeParent2.id, amount: 43.43)
 
         controller.update(cmd)
 

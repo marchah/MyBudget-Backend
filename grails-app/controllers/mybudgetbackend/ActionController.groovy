@@ -257,7 +257,7 @@ public class ActionCommand {
         idType(blank: false)
         title(blank: false)
         amount(blank: false)
-        date(blank: false, matches: '^\\d{2}/\\d{2}/\\d{4}$')
+        date(blank: false, matches: '^\\d{4}/\\d{2}/\\d{2}$')
         idRecurring(nullable: true)
     }
 }

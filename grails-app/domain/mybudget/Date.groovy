@@ -41,7 +41,7 @@ class Date {
     }
 
     def setDate(String dateString) {
-        setDate(new SimpleDateFormat('dd/MM/yyyy').parse(dateString))
+        setDate(new SimpleDateFormat('yyyy/MM/dd').parse(dateString))
     }
 
 
