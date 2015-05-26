@@ -48,6 +48,9 @@ class ActionController extends RestfulController {
                         ilike("type.title", "%" + params.search + "%")
                     }
                 }
+                if (params.isIncoming != null) {
+                    eq("type.isIncoming", Boolean.valueOf(params.isIncoming))
+                }
                 if (params.min != null) {
                     ge("amount", Integer.parseInt(params.min)*100)
                 }
