@@ -22,11 +22,14 @@ class AuthenticationController extends RestfulController {
     def signin(AuthenticationCredentials signin) {
         if (signin == null) {
             render status: HttpStatus.SC_NOT_FOUND
+        } else if (signin.hasErrors()) {
+            response.status = HttpStatus.SC_UNPROCESSABLE_ENTITY
+            render signin.errors as JSON
         } else {
-            // fetch user with same mail or same username
-            def user = User.findByEmail(signin.email)
+            // fetch user with same mail or same login
+            def user = User.findByEmail(signin.username)
             if (!user) {
-                user = User.findByLogin(signin.login)
+                user = User.findByLogin(signin.username)
             }
             if (user == null || !isPasswordValid(signin.password, user)) {
                 render status: HttpStatus.SC_UNAUTHORIZED

@@ -2,9 +2,13 @@ package mybudgetbackend.transfert
 
 import grails.validation.Validateable
 
-@Validateable(nullable = true)
+@Validateable(nullable = false)
 class AuthenticationCredentials {
-    String email
+    String username
     String password
-    String login
+
+    static constraints = {
+        username blank: false
+        password blank: false
+    }
 }
