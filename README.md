@@ -1,5 +1,14 @@
 # MyBudget-Backend
 
+Launch app
+````
+grails run-app
+````
+
+Generate WAR
+````
+grails war
+````
 
 TODO
 ----

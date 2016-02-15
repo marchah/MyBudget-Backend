@@ -95,6 +95,15 @@ class ActionController extends RestfulController {
                     groupProperty('isIncoming', 'isIncoming')
                     property('rgb', 'rgb')
                 }
+                order("year", "asc")
+
+                if (params.date == 'month')
+                    order("month", "asc")
+                else if (params.date == 'day') {
+                    order("month", "asc")
+                    order("day", "asc")
+                } else if (params.date == 'week')
+                    order("week", "asc")
             }
         }
         for (def type : result) {
